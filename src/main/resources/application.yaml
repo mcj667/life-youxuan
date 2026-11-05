@@ -1,17 +1,28 @@
 server:
   port: 8081
+  tomcat:
+    max-threads: 500
+    accept-count: 1000
+    max-connections: 10000
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username:  guest
+    password: guest
+    virtual-host: /
   application:
-    name: hmdp
+    name: life-youxuan
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/hmdp?useSSL=false&serverTimezone=UTC
+    datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3307/life_youxuan?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
-    password: 123
+    password: 123456
   redis:
-    host: 192.168.150.101
+    host: localhost
     port: 6379
-    password: 123321
+
     lettuce:
       pool:
         max-active: 10
@@ -21,9 +32,23 @@ spring:
   jackson:
     default-property-inclusion: non_null # JSON处理时忽略非空字段
 mybatis-plus:
-  type-aliases-package: com.hmdp.entity # 别名扫描包
+  type-aliases-package: com.youxuan.entity # 别名扫描包
 logging:
   level:
-    com.hmdp: debug
-  pattern:
-    dateformat: mm:ss.SSS
+    com.youxuan: debug
+
+# 业务配置
+youxuan:
+  upload-dir: /opt/life-youxuan/imgs
+
+# 短信服务
+# mock(默认):  验证码只打印到控制台，不花钱
+# aliyun:      调用阿里云短信真正发送，需要下面 4 个值（建议用环境变量注入）
+sms:
+  provider: mock
+  aliyun:
+    access-key-id: ${ALIYUN_SMS_AK:}
+    access-key-secret: ${ALIYUN_SMS_SK:}
+    sign-name: ${ALIYUN_SMS_SIGN:}
+    template-code: ${ALIYUN_SMS_TEMPLATE:}
+    endpoint: dysmsapi.aliyuncs.com

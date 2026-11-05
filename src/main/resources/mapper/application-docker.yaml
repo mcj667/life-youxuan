@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.100.128:3307/life_youxuan?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+  redis:
+    host: redis

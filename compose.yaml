@@ -1,0 +1,13 @@
+services:
+  redis:
+    image: redis:7
+    container_name: life-youxuan-redis
+  app:
+    build: .
+    container_name: life-youxuan-app
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - redis
